@@ -3,6 +3,11 @@
   flex-direction: column;
   align-items: center;
   padding: 1rem;
+  * {
+    &::selection {
+      background: unset;
+    }
+  }
 }
 .game_container {
   display: flex;
@@ -12,19 +17,26 @@
   .game_header {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 1rem;
-    height: 3.4375rem;
+    height: max-content;
+
     padding: 1rem;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
+    button {
+      min-width: 7rem;
+    }
     .other_info {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 1rem;
       margin-left: auto;
       font-size: 1rem;
       .mat-radio-group {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         gap: 1rem;
       }
     }
@@ -38,18 +50,50 @@
     background: #ccc;
     height: 100%;
     margin: 0 1rem 1rem;
+    .warn_wrapper {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      .warn {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: rgba(250, 0, 0, 0.25);
+      }
+      .score {
+        font-size: 1rem;
+      }
+    }
   }
   .bug {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: absolute;
     top: 1rem;
     left: 1rem;
-    width: 50px;
-    height: 50px;
-    padding: 1rem;
-    border-radius: 4px;
-    background: #f00;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    &:active {
+      transform: translateY(8px);
+    }
   }
+}
+
+.mat-form-field {
+  max-width: 8rem;
+  input {
+    text-align: center;
+  }
+  ::ng-deep.mat-form-field-wrapper {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+p {
+  margin-top: 1rem;
 }

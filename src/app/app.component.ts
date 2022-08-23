@@ -1,4 +1,8 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { TitleStrategy } from '@angular/router';
+import { AnimationItem } from 'lottie-web';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-root',
@@ -6,8 +10,21 @@ import { AfterViewInit, Component, ElementRef, HostListener, OnInit, SimpleChang
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  isGameStarted: boolean = false
-  isGameOver: boolean = false
+  options: AnimationOptions = {
+    path: '/assets/bee.json',
+  };
+  options2: AnimationOptions = {
+    path: '/assets/happyBee.json',
+  };
+
+  animationCreated(animationItem: AnimationItem): void {
+    console.log(animationItem);
+  }
+
+  isGameStarted: boolean = false;
+  isGameOver: boolean = false;
+  isPaused: boolean = false;
+
   currentLevel: any;
   levels: any[] = [
     {
@@ -24,6 +41,11 @@ export class AppComponent implements OnInit {
     }
   ];
 
+  gameTrigger: any;
+  timeCountDown = 0;
+  score: number = 0
+  timerTrigger: any;
+
   screenHeight!: number;
   screenWidth!: number;
   containerHeight!: number;
@@ -32,33 +54,7 @@ export class AppComponent implements OnInit {
   top = 0;
   left = 0;
 
-
-  timer: any;
-  countDown: number = 20;
-  score: number = 0
-  cd: any;
-
-
   @ViewChild('container') container!: ElementRef;
-
-  constructor() {
-    this.currentLevel = 2000;
-  }
-
-  ngOnInit(): void {
-    this.getScreenSize();
-
-  }
-
-
-  changeLevel(level: any) {
-    this.currentLevel = level
-    console.log(level)
-  }
-
-
-
-
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?) {
     this.screenHeight = window.innerHeight;
@@ -66,42 +62,50 @@ export class AppComponent implements OnInit {
     console.log(this.screenHeight, this.screenWidth);
   }
 
+  // form group
+
+  setTimeForm = new FormGroup({
+    setTimeValue: new FormControl(),
+  });
+
+  constructor() {
+    this.currentLevel = 2000;
+  }
+
+  ngOnInit(): void {
+    this.getScreenSize();
+  }
+
   startGame() {
     this.isGameStarted = true
-    this.timer = setInterval(() => {
-      this.top = Math.floor(Math.random() * 500) + 1;
-      this.left = Math.floor(Math.random() * 500) + 1;
-    }, this.currentLevel)
-    this.cd = setInterval(() => {
-      this.countDown--
-      if (this.countDown <= 0) {
-        setTimeout(() => {
-          clearTimeout(this.cd)
-          this.stopGame();
-          this.isGameOver = false;
-          this.isGameStarted = false
-        }, 0)
-      }
-    }, 1000)
-
+    this.setTimeForm.setValue({
+      setTimeValue: 10
+    })
+    this.addTime()
+    this.playGame()
   }
 
-  stopGame() {
-    setTimeout(() => {
-      clearTimeout(this.timer)
-      this.score = 0;
-    }, 0);
-    setTimeout(() => {
-      clearTimeout(this.cd)
-      this.isGameOver = false;
-      this.isGameStarted = false
-    }, 0)
+  pauseGame() {
+    this.stopAnimation();
+    this.stopTimer();
+    this.isPaused = true;
   }
 
-  resetGame() {
-    this.stopGame();
-    this.currentLevel = 2000;
-    this.score = 0;
+  playGame() {
+    this.startAnimation();
+    this.startTimer();
+    this.isPaused = false;
+    this.isGameOver = false;
+  }
+
+  endGame() {
+    this.top = 0;
+    this.left = 0;
+    this.pauseGame();
+    this.addTime();
+    this.isGameOver = true;
+    this.isGameStarted = false;
+    this.isPaused = false;
   }
 
   makeScore() {
@@ -109,5 +113,43 @@ export class AppComponent implements OnInit {
       this.score++
     }
   }
+
+  startAnimation() {
+    this.gameTrigger = setInterval(() => {
+      this.top = Math.floor(Math.random() * this.screenHeight / 2) + 1;
+      this.left = Math.floor(Math.random() * this.screenWidth / 2) + 1;
+    }, this.currentLevel)
+  }
+
+  stopAnimation() {
+    setTimeout(() => {
+      clearTimeout(this.gameTrigger)
+    }, 0);
+  }
+
+  startTimer() {
+    this.timerTrigger = setInterval(() => {
+      this.timeCountDown--
+      if (this.timeCountDown == 0) {
+        this.endGame()
+      }
+    }, 1000)
+  }
+
+  stopTimer() {
+    setTimeout(() => {
+      clearTimeout(this.timerTrigger)
+    }, 0)
+  }
+
+  changeLevel(level: any) {
+    this.currentLevel = level
+    console.log(level)
+  }
+  addTime() {
+    this.timeCountDown = this.setTimeForm.value.setTimeValue;
+  }
+
+
 
 }
