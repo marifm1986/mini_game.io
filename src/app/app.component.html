@@ -1,9 +1,9 @@
 <div class="game_container" [ngStyle]="{'width':screenWidth / 1.5 + 'px', 'height':screenHeight / 1.5 + 'px'}">
   <div class="game_header">
     <button mat-raised-button (click)="startGame()">Start Game</button>
-    <button mat-raised-button (click)="playGame()" *ngIf="isPaused && isGameStarted">Play</button>
+    <button mat-raised-button (click)="playGame()" *ngIf="isPaused">Play</button>
     <button mat-raised-button (click)="pauseGame()" *ngIf="!isPaused && isGameStarted">Pause</button>
-    <button mat-raised-button (click)="endGame()" *ngIf="isGameStarted">End Game</button>
+    <button mat-raised-button (click)=" endGame()" *ngIf="isGameStarted">End Game</button>
     <form [formGroup]="setTimeForm" (ngSubmit)="addTime()">
       <mat-form-field appearance="outline">
         <mat-label>Set Timer</mat-label>

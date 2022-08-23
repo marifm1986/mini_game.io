@@ -77,6 +77,12 @@
     left: 1rem;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
+    ng-lottie {
+      &::selection {
+        background: unset;
+      }
+    }
+
     &:active {
       transform: translateY(8px);
     }

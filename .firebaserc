@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "bgame2022"
+  },
+  "targets": {
+    "bgame2022": {
+      "hosting": {
+        "miniGame": [
+          "bgame2022"
+        ]
+      }
+    }
+  }
+}

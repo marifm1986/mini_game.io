@@ -77,7 +77,8 @@ export class AppComponent implements OnInit {
   }
 
   startGame() {
-    this.isGameStarted = true
+    this.isGameStarted = true;
+    this.score = 0;
     this.setTimeForm.setValue({
       setTimeValue: 10
     })
@@ -102,10 +103,9 @@ export class AppComponent implements OnInit {
     this.top = 0;
     this.left = 0;
     this.pauseGame();
-    this.addTime();
     this.isGameOver = true;
-    this.isGameStarted = false;
     this.isPaused = false;
+    this.isGameStarted = false;
   }
 
   makeScore() {
