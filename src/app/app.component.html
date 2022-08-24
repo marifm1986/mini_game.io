@@ -1,5 +1,6 @@
 <div class="game_container" [ngStyle]="{'width':screenWidth / 1.5 + 'px', 'height':screenHeight / 1.5 + 'px'}">
   <div class="game_header">
+    <span class="title">BeeHunter</span>
     <button mat-raised-button (click)="startGame()">Start Game</button>
     <button mat-raised-button (click)="playGame()" *ngIf="isPaused">Play</button>
     <button mat-raised-button (click)="pauseGame()" *ngIf="!isPaused && isGameStarted">Pause</button>
@@ -30,7 +31,7 @@
         <ng-lottie [options]="options2" width="100px" height="100px" (animationCreated)="animationCreated($event)">
         </ng-lottie>
       </span>
-      <span class="warn">Game {{isPaused? 'Paused':'Over'}}</span>
+      <span class="title">Game {{isPaused? 'Paused':'Over'}}</span>
       <span class="score">Your Score is : {{score}}</span>
     </span>
     <ng-lottie class="bug" *ngIf="!isGameOver" [ngStyle]="{'top':top +'px', 'left':left + 'px'}" (click)="makeScore()"

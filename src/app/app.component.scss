@@ -12,7 +12,7 @@
 .game_container {
   display: flex;
   flex-direction: column;
-  background: #eee;
+  background: rgb(236, 228, 206);
   gap: 1rem;
   .game_header {
     display: flex;
@@ -20,9 +20,12 @@
     flex-wrap: wrap;
     gap: 1rem;
     height: max-content;
-
     padding: 1rem;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
+    .title {
+      font-size: 32px;
+      color: goldenrod;
+    }
     button {
       min-width: 7rem;
     }
@@ -47,9 +50,12 @@
     justify-content: flex-start;
     align-items: flex-start;
     padding: 1rem;
-    background: #ccc;
+    background: rgb(219, 211, 172);
     height: 100%;
     margin: 0 1rem 1rem;
+    background-image: url(../assets/bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
     .warn_wrapper {
       position: absolute;
       display: flex;
@@ -61,13 +67,21 @@
       left: 50%;
       transform: translate(-50%, -50%);
 
-      .warn {
+      .title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 2.5rem;
         font-weight: 700;
-        color: rgba(250, 0, 0, 0.25);
+        color: rgb(36, 32, 30);
+        color: goldenrod;
+        background: #b38000;
+        padding: 1rem;
       }
       .score {
         font-size: 1rem;
+        background: #b38000;
+        padding: 0.5rem 1rem;
       }
     }
   }
